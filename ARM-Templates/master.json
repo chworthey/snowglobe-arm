@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "westus",
+      "metadata": {
+        "description": "The location in which the main resources should be created."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-06-01",
+      "name": "webServer",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "./artifacts/web-server.json"
+        },
+        "parameters": {
+          "appName": {
+            "value": "telemetry"
+          },
+          "storageAccountType": {
+            "value": "Standard_LRS"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "appInsightsLocation": {
+            "value": "[parameters('location')]"
+          },
+          "runtime": {
+            "value": "dotnet"
+          }
+        }
+      }
+    }
+  ]
+}
