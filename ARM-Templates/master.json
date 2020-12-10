@@ -10,6 +10,9 @@
       }
     }
   },
+  "variables": {
+    "eventHubName": "telemetryEventHub"
+  },
   "resources": [
     {
       "type": "Microsoft.Resources/deployments",
@@ -35,6 +38,28 @@
           },
           "runtime": {
             "value": "dotnet"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-06-01",
+      "name": "eventHub",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "./artifacts/event-hub.json"
+        },
+        "parameters": {
+          "projectName": {
+            "value": "[variables('eventHubName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "eventHubSku": {
+            "value": "Basic"
           }
         }
       }
